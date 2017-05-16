@@ -7,4 +7,4 @@
 
 ## May 16
 - _BV_ Chapter 3, Convex Functions
-- _BV_ Chapter 6, Approximation
+- _BV_ Chapter 6, Approximation and Fitting
