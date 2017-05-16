@@ -1,10 +1,10 @@
 # Work Log
 
 ## May 15
-- Convext Optimization, Boyd & Vandenberghe Chapter 1, Introduction
-- BV Appendix A, Mathematical Background
-- BV Chapter 2, Convex Sets and Topology
+- _Convext Optimization_, Boyd & Vandenberghe Chapter 1, Introduction
+- _BV_ Appendix A, Mathematical Background
+- _BV_ Chapter 2, Convex Sets and Topology
 
 ## May 16
-- BV Chapter 3, Convex Functions
-- BV Chapter 6, Approximation
+- _BV_ Chapter 3, Convex Functions
+- _BV_ Chapter 6, Approximation
