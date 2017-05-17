@@ -9,3 +9,6 @@
 - _BV_ Chapter 3, Convex Functions
 - _BV_ Chapter 6, Approximation and Fitting
 - _Machine Learning_, Murphy, Chapter 1, Introduction
+
+## May 17
+- CS 229: Lecture 1 ([Course Website](http://cs229.stanford.edu/))
