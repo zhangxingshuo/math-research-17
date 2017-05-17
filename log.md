@@ -11,5 +11,5 @@
 - _Machine Learning_, Murphy, Chapter 1, Introduction
 
 ## May 17
-- CS 229: Lecture 1 ([Course Website](http://cs229.stanford.edu/))
+- CS 229, Lecture 1, Supervised Learning, Discriminative Algorithms ([Course Website](http://cs229.stanford.edu/))
 - _Murphy_, Chapter 7, Regression
