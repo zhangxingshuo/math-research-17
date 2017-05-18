@@ -18,3 +18,4 @@
 ## May 18
 - _BV_, Chapter 4, Convex Optimization Problems
 - _BV_, Chapter 7, Statistical Estimation
+- CS 229, Lecture 3, Support Vector Machines
