@@ -16,4 +16,5 @@
 - CS 229, Lecture 2, Generative Algorithms
 
 ## May 18
+- _BV_, Chapter 4, Convex Optimization Problems
 - _BV_, Chapter 7, Statistical Estimation
