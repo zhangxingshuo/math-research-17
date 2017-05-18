@@ -14,3 +14,6 @@
 - CS 229, Lecture 1, Supervised Learning, Discriminative Algorithms ([Course Website](http://cs229.stanford.edu/))
 - _Murphy_, Chapter 7, Regression
 - CS 229, Lecture 2, Generative Algorithms
+
+## May 18
+- _BV_, Chapter 7, Statistical Estimation
