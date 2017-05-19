@@ -23,3 +23,4 @@
 ## May 19
 - _BV_, Chapter 8 , Geometric Problems
 - _Murphy_, Chapter 8, Logistic Regression
+- CS 229, Lecture 4, Learning Theory
