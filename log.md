@@ -27,3 +27,4 @@
 
 ## May 22
 - CS 229, Lecture 5, Regularization and Model Selection
+- _BV_, Chapter 9, Unconstrained Minimization
