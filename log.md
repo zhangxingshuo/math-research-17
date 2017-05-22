@@ -24,3 +24,6 @@
 - _BV_, Chapter 8 , Geometric Problems
 - _Murphy_, Chapter 8, Logistic Regression
 - CS 229, Lecture 4, Learning Theory
+
+## May 22
+- CS 229, Lecture 5, Regularization and Model Selection
