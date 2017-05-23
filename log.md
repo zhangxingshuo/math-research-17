@@ -32,3 +32,4 @@
 
 ## May 23
 - CS 229, Lecture 6, Online Learning and Perceptron Algorithm
+- CS 229, Lecture 7, Unsupervised Learning and k-Means
