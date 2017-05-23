@@ -29,3 +29,6 @@
 - CS 229, Lecture 5, Regularization and Model Selection
 - _BV_, Chapter 9, Unconstrained Minimization
 - _BV_, Chapter 10, Equality Constrained Minimization
+
+## May 23
+- CS 229, Lecture 6, Online Learning and Perceptron Algorithm
