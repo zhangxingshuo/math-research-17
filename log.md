@@ -38,3 +38,4 @@
 ## May 24
 - _BV_, Chapter 11, Interior Point Methods
 - CS 229, Lecture 7b, Mixture of Gaussians
+- _Murphy_, Chapter 2, Probability Theory
