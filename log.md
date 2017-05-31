@@ -41,6 +41,8 @@
 - _Murphy_, Chapter 2, Probability Theory
 
 ## May 25
-- Fang and Radcliffe, "On the Spectra of General Random Graphs" ([link to paper](http://www.math.ucsd.edu/~fan/wp/randomsp.pdf))
+- Fang and Radcliffe, "On the Spectra of General Random Graphs". ([link to paper](http://www.math.ucsd.edu/~fan/wp/randomsp.pdf))
   
   Paper establishes bounds on the eigenvalues of the adjacency and normalized Laplacian matrices of graphs where each edge is determined by an independent random variable. While not exactly the case for the expectation of a time-varying graph, the approach is similar. However, the paper uses the probability expected adjacency matrix, whereas we plan on rounding the probabilities for a genuine adjacency matrix.
+  
+  Based on previous work, especially by Oliveira in "Concentratoin of the adjacency matrix and of the Laplacian in random graphs with independent edges. ((link to paper)[https://arxiv.org/pdf/0911.0600.pdf])
