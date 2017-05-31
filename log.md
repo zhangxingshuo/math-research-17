@@ -46,3 +46,7 @@
   Paper establishes bounds on the eigenvalues of the adjacency and normalized Laplacian matrices of graphs where each edge is determined by an independent random variable. While not exactly the case for the expectation of a time-varying graph, the approach is similar. However, the paper uses the probability expected adjacency matrix, whereas we plan on rounding the probabilities for a genuine adjacency matrix.
   
   Based on previous work, especially by Oliveira in "Concentratoin of the adjacency matrix and of the Laplacian in random graphs with independent edges. ([link to paper](https://arxiv.org/pdf/0911.0600.pdf))
+
+- Ding and Jiang, "Spectral Distributions of Adjacency and Laplacian Matrices of Random Graphs" ([link to paper](https://arxiv.org/pdf/1011.2608.pdf))
+  
+  Paper does not deal with expected values of eigenvalues or Laplacian matrices, but does have interesting convergence results for the distribution of eigenvalues of random matrices as the degree of the graph approaches infinity. 
