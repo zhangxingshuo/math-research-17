@@ -40,7 +40,7 @@
 - CS 229, Lecture 7b, Mixture of Gaussians
 - _Murphy_, Chapter 2, Probability Theory
 
-## May 25
+## May 30
 - Fang and Radcliffe, "On the Spectra of General Random Graphs". ([link to paper](http://www.math.ucsd.edu/~fan/wp/randomsp.pdf))
   
   Paper establishes bounds on the eigenvalues of the adjacency and normalized Laplacian matrices of graphs where each edge is determined by an independent random variable. While not exactly the case for the expectation of a time-varying graph, the approach is similar. However, the paper uses the probability expected adjacency matrix, whereas we plan on rounding the probabilities for a genuine adjacency matrix.
@@ -50,3 +50,6 @@
 - Ding and Jiang, "Spectral Distributions of Adjacency and Laplacian Matrices of Random Graphs" ([link to paper](https://arxiv.org/pdf/1011.2608.pdf))
   
   Paper does not deal with expected values of eigenvalues or Laplacian matrices, but does have interesting convergence results for the distribution of eigenvalues of random matrices as the degree of the graph approaches infinity. 
+  
+## May 31
+- Wrote Python wrapper script for getting eigenstuff with numpy
