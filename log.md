@@ -53,3 +53,6 @@
   
 ## May 31
 - Wrote Python wrapper script for getting eigenstuff with numpy
+
+## June 2
+- Finalized Python script for retrieving matrix values from CSV file
