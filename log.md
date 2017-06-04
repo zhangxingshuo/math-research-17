@@ -59,3 +59,6 @@
 
 ## June 3
 - Worked through preliminary example (picture to be uploaded)
+
+## June 4
+- Worked through another small example of time-varying network
