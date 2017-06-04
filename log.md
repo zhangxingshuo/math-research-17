@@ -56,3 +56,6 @@
 
 ## June 2
 - Finalized Python script for retrieving matrix values from CSV file
+
+## June 3
+- Worked through preliminary example (picture to be uploaded)
