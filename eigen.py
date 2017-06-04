@@ -15,9 +15,13 @@ def eigen(matrix):
         eig.append((np_eigval[i], np_eigvector[:,i].tolist()))
 
     # sort in descending order by eigenvalue
-    sorted(eig, key=lambda eigen: eigen[0])
-    
-    return eig
+    return sorted(eig, key=lambda elem: elem[0], reverse=True)
+
+def eigenvalues(matrix):
+    '''
+    Return only the eigenvalues in descending order
+    '''
+    return [eigen[0] for eigen in eigen(matrix)]
 
 def read_file(file_name):
     '''
@@ -56,5 +60,5 @@ def read_matrix(vals, num_row, num_col):
         row = vals[i]
         if num_col > len(row):
             raise IndexError
-        matrix.append(list(map(int, row[:num_col])))
+        matrix.append(list(map(float, row[:num_col])))
     return np.matrix(matrix)
