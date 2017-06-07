@@ -62,3 +62,7 @@
 
 ## June 4
 - Worked through another small example of time-varying network
+
+## June 6
+- Example of network with few edges
+- Readings on the spectral properties of the Laplacian ([link to PDF](http://www.sciencedirect.com/science/article/pii/S0898122104003074))
