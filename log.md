@@ -66,3 +66,8 @@
 ## June 6
 - Example of network with few edges
 - Readings on the spectral properties of the Laplacian ([link to PDF](http://www.sciencedirect.com/science/article/pii/S0898122104003074))
+
+## June 10
+- Research various graph implementations and representations in Python
+- Two good libraries available: [igraph](http://igraph.org/python/) and [NetworkX](https://networkx.github.io/)
+- Both support large networks, visualizations, analysis, etc.
