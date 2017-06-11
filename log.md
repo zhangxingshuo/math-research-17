@@ -74,3 +74,4 @@
 
 ## June 11
 - Found a very useful thesis paper from UMich about large-scale single and multiple graphs ([link to paper](https://web.eecs.umich.edu/~dkoutra/Danai_Koutra_thesis_CMU-CS-15-126.pdf))
+- TimeCrunch algorithm for summarizing temporal graphs by Shah et al (actual paper is behind a paywall)
