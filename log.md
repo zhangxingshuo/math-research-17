@@ -79,3 +79,4 @@
 - Started implementing automated graph and Laplacian generation using both igraph and NetworkX
 - NetworkX is slightly more convenient as it has built-in integration with numpy and linear algebra methods
 - Tutorial on Modeling and Analysis of Dynamic Social Networks ([link to paper](https://arxiv.org/pdf/1701.06307.pdf))
+- Another relevant thesis, though it is translated from German, so translation issues occur ([link to paper](http://www.iiserkol.ac.in/~anirban.banerjee/Banerjee_PhD_Thesis.pdf))
