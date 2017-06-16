@@ -74,4 +74,9 @@
 
 ## June 11
 - Found a very useful thesis paper from UMich about large-scale single and multiple graphs ([link to paper](https://web.eecs.umich.edu/~dkoutra/Danai_Koutra_thesis_CMU-CS-15-126.pdf))
-- TimeCrunch algorithm for summarizing temporal graphs by Shah et al (actual paper is behind a paywall)
+- TimeCrunch algorithm for summarizing temporal graphs by Shah et al ([link to paper](https://www.cs.cmu.edu/~neilshah/research/papers/TimeCrunch.KDD.2015.pdf))
+- Algorithm for determining coherent patterns in dynamic networks, and condensing large-scale graphs into important temporal structures
+- Started implementing automated graph and Laplacian generation using both igraph and NetworkX
+- NetworkX is slightly more convenient as it has built-in integration with numpy and linear algebra methods
+- Tutorial on Modeling and Analysis of Dynamic Social Networks ([link to paper](https://arxiv.org/pdf/1701.06307.pdf))
+- Another relevant thesis, though it is translated from German, so translation issues occur ([link to paper](http://www.iiserkol.ac.in/~anirban.banerjee/Banerjee_PhD_Thesis.pdf))
