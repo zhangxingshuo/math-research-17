@@ -83,3 +83,6 @@
 
 ## June 16
 - Began implementing time-varying network methods with NetworkX in Python 2.7
+
+## June 17
+- Added functionality for generating a random separated graph and probabilistically adding and removing edges while preserving separation
