@@ -86,3 +86,6 @@
 
 ## June 17
 - Added functionality for generating a random separated graph and probabilistically adding and removing edges while preserving separation
+
+## June 18
+- Finished Python script, can now generate many graphs, connected and separated, and analyze for expected Laplacian
