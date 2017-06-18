@@ -156,3 +156,48 @@ def calculate_expected_laplacian(L):
     np_ceil = np.vectorize(math.ceil)
     return (np.diag(np_floor(expected_diagonal)) - A, 
             np.diag(np_ceil(expected_diagonal)) - A)
+
+def eigen(matrix):
+    '''
+    @return A list of tuples of eigenvalue and associated eigenvector, in order
+            of descending eigenvalue, and assuming the matrix is real
+
+    Credit: https://stackoverflow.com/a/8093043
+    '''
+
+    np_eigval, np_eigvector = np.linalg.eig(matrix)
+
+    sorted_idx = np_eigval.argsort()[::-1]
+    return [np_eigval[sorted_idx], np_eigvector[:,sorted_idx]]
+
+def eigenvalues(matrix):
+    '''
+    @return The eigenvalues of the given matrix in descending order
+
+    Credit: https://stackoverflow.com/a/8093043
+    '''
+    np_eigval = np.linalg.eigvals(matrix)
+
+    sorted_idx =  np_eigval.argsort()[::-1]
+    return np_eigval[sorted_idx]
+
+def calculate_expected_eigenvalues(L):
+    '''
+    @param L  List of graphs to analyze
+    @return A vector representing the expected Laplacian spectrum for the graphs
+    '''
+    eigen_list = [np.array(eigenvalues(np.matrix(nx.laplacian_matrix(g).todense()))) for g in L]
+    return np.mean(eigen_list, axis=0)
+
+def read_graphs(directory, num_graphs):
+    '''
+    Reads in graphs from specified directory
+
+    @return A list of NetworkX graphs
+    '''
+    graphs = []
+
+    for i in xrange(num_graphs):
+        graphs.append(nx.read_graphml(directory + "/" + str(i) + ".graphml", node_type=int))
+
+    return graphs
