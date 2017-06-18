@@ -89,3 +89,7 @@
 
 ## June 18
 - Finished Python script, can now generate many graphs, connected and separated, and analyze for expected Laplacian
+- Retrieve and begin parsing large network datsets
+- Enron: email dataset containing approximately 500,000 emails between 150 users, mostly senior management at Enron, over a period of 163 weeks ([link to dataset](https://www.cs.cmu.edu/~./enron/))
+- Wikipedia: a large dataset containing user edits to Talk pages over a span of 2320 days ([link to datset](https://snap.stanford.edu/data/wiki-talk-temporal.html)) 
+- DBLP: computer science bibliography containing collaboration networks and coauthorships spanning 25 years ([link to dataset](http://dblp.uni-trier.de/xml/))
