@@ -204,3 +204,6 @@ def read_graphs(directory, num_graphs):
         graphs.append(nx.read_graphml(directory + "/graph" + str(i) + ".graphml", node_type=int))
 
     return graphs
+
+if __name__ == "__main__":
+    L = read_graphs("/home/andy/host/dataset/college-graphs", 1000)
