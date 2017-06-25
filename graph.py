@@ -121,7 +121,10 @@ def calculate_expected_adjacency(L):
     @return The expected adjacency matrix
     '''
     matrix_list = [np.matrix(nx.adjacency_matrix(g).todense()) for g in L]
-    mean = np.mean(matrix_list, axis=0)
+    mean = matrix_list[0]
+    for matrix in matrix_list[1:]:
+        mean = np.mean(np.matrix([mean, matrix]), axis=0)
+    # mean = np.mean(matrix_list, axis=0)
     normalize = np.vectorize(lambda x: 1 if x >= 0.5 else 0)
     return normalize(mean)
 
