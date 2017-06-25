@@ -98,3 +98,8 @@
 - Parse DBLP, Wikitalk, EU email, and Enron datasets
 - Convert to temporal networks in NetworkX format
 - Run Python scripts on generated graphs and analyze expected values and spectrum
+
+## June 26
+- Parsed EU email, Wikitalk, and CollegeMsg datasets into NetworkX .graphml format
+- Ran Python script on all datasets
+- The expected spectrum does not fall in between the lower and upper expected Laplacian spectrums?
