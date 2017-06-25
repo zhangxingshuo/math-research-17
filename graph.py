@@ -123,7 +123,7 @@ def calculate_expected_adjacency(L):
     matrix_list = [np.matrix(nx.adjacency_matrix(g).todense()) for g in L]
     mean = matrix_list[0]
     for matrix in matrix_list[1:]:
-        mean = np.mean(np.matrix([mean, matrix]), axis=0)
+        mean = np.mean(np.array([mean, matrix]), axis=0)
     # mean = np.mean(matrix_list, axis=0)
     normalize = np.vectorize(lambda x: 1 if x >= 0.5 else 0)
     return normalize(mean)
@@ -201,6 +201,6 @@ def read_graphs(directory, num_graphs):
     graphs = []
 
     for i in xrange(num_graphs):
-        graphs.append(nx.read_graphml(directory + "/" + str(i) + ".graphml", node_type=int))
+        graphs.append(nx.read_graphml(directory + "/graph" + str(i) + ".graphml", node_type=int))
 
     return graphs
