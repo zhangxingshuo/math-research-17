@@ -103,3 +103,6 @@
 - Parsed EU email, Wikitalk, and CollegeMsg datasets into NetworkX .graphml format
 - Ran Python script on all datasets
 - The expected spectrum does not fall in between the lower and upper expected Laplacian spectrums?
+
+## June 30
+- Extract the location matrix (P such that L = PDP^-1) with using numpy and eigenvalues
