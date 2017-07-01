@@ -106,3 +106,6 @@
 
 ## June 30
 - Extract the location matrix (P such that L = PDP^-1) with using numpy and eigenvalues
+
+## July 1
+- Implement matrix average using logarithm definition
