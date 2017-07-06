@@ -109,3 +109,6 @@
 
 ## July 1
 - Implement matrix average using logarithm definition
+
+## July 5
+- Use methodology on a structured example with well-defined pattern and expected graph
