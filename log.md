@@ -112,3 +112,6 @@
 
 ## July 5
 - Use methodology on a structured example with well-defined pattern and expected graph
+
+## July 7
+- Generate a small-scale network that remains mostly connected
