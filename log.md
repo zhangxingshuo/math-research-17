@@ -115,3 +115,13 @@
 
 ## July 7
 - Generate a small-scale network that remains mostly connected
+
+## July 8
+- New algorithm for creating an expected Laplacian:
+- Use eigendecomposition to get matrices M_i and D_i such that L_i = (M_i)(D_i)(M_i)^T, where D_i is a diagonal matrix of eigenvalues and M_i is a matrix of the corresponding eigenvectors
+- Take the arithmetic mean of D_i to obtain D_e
+- For each M_i, use polar decomposition into U_i and P_i, where U_i is a unitary matrix. 
+- Take the arithmetic mean of P_i to obtain P_e
+- Take the arithmetic mean of U_i to obtain U_bar. Define U_e to be the unitary matrix from the polar decomposition of U_bar.
+- Define M_e as (U_e)(P_e)
+- Define L_e as (M_e)(D_e)(M_e)^T
