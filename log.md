@@ -125,3 +125,4 @@
 - Take the arithmetic mean of U_i to obtain U_bar. Define U_e to be the unitary matrix from the polar decomposition of U_bar.
 - Define M_e as (U_e)(P_e)
 - Define L_e as (M_e)(D_e)(M_e)^T
+- Actually, taking the arithmetic of P_i is redundant, as each P_i is just the identity matrix. So, we can simply sum the polar decompositions of each matrix and take the polar decomposition of the sum to obtain the average rotation matrix M_e
