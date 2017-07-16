@@ -126,3 +126,12 @@
 - Define M_e as (U_e)(P_e)
 - Define L_e as (M_e)(D_e)(M_e)^T
 - Actually, taking the arithmetic of P_i is redundant, as each P_i is just the identity matrix. This is because the eigenvectors that compose each M_i are normalized to unit length. So, we can simply sum the polar decompositions of each matrix and take the polar decomposition of the sum to obtain the average rotation matrix M_e.
+
+## July 12
+- Fixed errors in dataset parsing
+- Created final datasets for college-message and eu-email
+
+## July 16
+- Performed analysis of college-message and eu-email datasets
+- Naive method of arithemetic mean of adjacency matrices does not work - too sparse
+- Polar decomposition method works reasonable well by visual analysis, need a metric to define distance from one graph to another
