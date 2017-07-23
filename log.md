@@ -135,3 +135,8 @@
 - Performed analysis of college-message and eu-email datasets
 - Naive method of arithemetic mean of adjacency matrices does not work - too sparse
 - Polar decomposition method works reasonable well by visual analysis, need a metric to define distance from one graph to another
+
+## July 23
+- Read and researched covariance matrices and probability theory
+- Created covariance matrix for small network example
+- Cleaned up code and documentation
