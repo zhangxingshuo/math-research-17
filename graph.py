@@ -3,6 +3,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import math
+import pickle
+
+from matrix import *
+
+np.set_printoptions(suppress=True)
+
+#####################
+### Graph Methods ###
+#####################
 
 def generate_graph(num_nodes, add_prob=0.5):
     '''
@@ -34,7 +43,7 @@ def join_graphs(G1, G2):
     '''
     return nx.disjoint_union(G1, G2)
 
-def remove_edges(G, prob=0.2, func=lambda _:True):
+def remove_edges(G, prob=0.2, f=lambda _:True):
     '''
     For each node, randomly remove an edge with given probability
 
@@ -47,9 +56,9 @@ def remove_edges(G, prob=0.2, func=lambda _:True):
     '''
     # iterate through all of the nodes
     for node in G.nodes():
-        if func(node):
+        if f(node):
             # list of nodes that are connected to current node
-            connected = [to for (fr, to) in G.edges(node) if func(to)]
+            connected = [to for (fr, to) in G.edges(node) if f(to)]
             # if there is a node to remove
             if len(connected):
                 # remove random node with probability 
@@ -73,7 +82,7 @@ def add_edges(G, prob=0.2, f=lambda _:True):
     for node in G.nodes():
         if f(node):
             # list of nodes that are unconnected to current node
-            connected = [to for (fr, to) in G.edges(node)]
+            connected = [to for (fr, to) in G.edges(node) if f(to)]
             unconnected = [n for n in G.nodes() if n not in connected and f(n)]
             # if there is node that is not connected, i.e. able to add new edge
             if len(unconnected):
@@ -100,97 +109,16 @@ def generate_separated_graphs(num_nodes1, num_nodes2, num_time_steps, directory)
 
     for i in range(num_time_steps):
         # preserve separation
-        add_edges(G, func=lambda x: x<num_nodes1)
-        add_edges(G,func=lambda x: x>=num_nodes1)
+        add_edges(G, f=lambda x: x<num_nodes1)
+        add_edges(G, f=lambda x: x>=num_nodes1)
 
         remove_edges(G)
 
         # write to specified directory in .graphml format, with timestep as label
-        nx.write_graphml(G, directory + "/" + str(i) + ".graphml")
-
-def calculate_expected_adjacency(L):
-    '''
-    Calculate expected adjacency matrix of list of graphs
-
-    Our definition of expectation is averaging elementwise across all adjacency
-    matrices, and then for each element rounding up to 1 if greater than or equal
-    to 0.5, and otherwise rounding down to 0. In this way, the graph is composed
-    of all 1s and 0s and remains an actual adjacency matrix.
-
-    @param L  List of graphs to average
-    @return The expected adjacency matrix
-    '''
-    matrix_list = [np.matrix(nx.adjacency_matrix(g).todense()) for g in L]
-    mean = matrix_list[0]
-    for matrix in matrix_list[1:]:
-        mean = np.mean(np.array([mean, matrix]), axis=0)
-    # mean = np.mean(matrix_list, axis=0)
-    normalize = np.vectorize(lambda x: 1 if x >= 0.5 else 0)
-    return normalize(mean)
-
-def get_degree_vector(G):
-    '''
-    @param G  NetworkX graph
-    @return A numpy vector of degrees of nodes
-    '''
-    laplacian = np.matrix(nx.laplacian_matrix(G).todense())
-    return np.diagonal(laplacian)
-
-def calculate_expected_laplacian(L):
-    '''
-    Calculates the expected Laplacian matrix of the list of graphs
-
-    Our method is to first calculate the expected adjacency matrix, based on the
-    definition above. Then, we average the degrees of each node. To ensure integer
-    values, we use the floor (lower) and ceiling (upper) to round down and up, and
-    in doing so we can obtain two different expected Laplacian matrices.
-
-    Note that the final matrices are not always actual Laplcian matrices, as the degrees
-    of each node and their adjacencies do not always align.
-
-    @param L  List of NetworkX graphs to analyze
-    @return A tuple of the lower and upper expected Laplacian matrices
-            based on our method of expectation
-    '''
-    A = calculate_expected_adjacency(L)
-    diagonal_vectors = [get_degree_vector(g) for g in L]
-    expected_diagonal = np.mean(diagonal_vectors, axis=0)
-    np_floor = np.vectorize(math.floor)
-    np_ceil = np.vectorize(math.ceil)
-    return (np.diag(np_floor(expected_diagonal)) - A, 
-            np.diag(np_ceil(expected_diagonal)) - A)
-
-def eigen(matrix):
-    '''
-    @return A list of tuples of eigenvalue and associated eigenvector, in order
-            of descending eigenvalue, and assuming the matrix is real
-
-    Credit: https://stackoverflow.com/a/8093043
-    '''
-
-    np_eigval, np_eigvector = np.linalg.eig(matrix)
-
-    sorted_idx = np_eigval.argsort()[::-1]
-    return [np_eigval[sorted_idx], np_eigvector[:,sorted_idx]]
-
-def eigenvalues(matrix):
-    '''
-    @return The eigenvalues of the given matrix in descending order
-
-    Credit: https://stackoverflow.com/a/8093043
-    '''
-    np_eigval = np.linalg.eigvals(matrix)
-
-    sorted_idx =  np_eigval.argsort()[::-1]
-    return np_eigval[sorted_idx]
-
-def calculate_expected_eigenvalues(L):
-    '''
-    @param L  List of graphs to analyze
-    @return A vector representing the expected Laplacian spectrum for the graphs
-    '''
-    eigen_list = [np.array(eigenvalues(np.matrix(nx.laplacian_matrix(g).todense()))) for g in L]
-    return np.mean(eigen_list, axis=0)
+        nx.write_graphml(G, directory + "/graph" + str(i) + ".graphml")
+        nx.draw_networkx(G)
+        plt.savefig(directory + "/graph" + str(i) + ".png", format="PNG")
+        plt.gcf().clear()
 
 def read_graphs(directory, num_graphs):
     '''
@@ -200,10 +128,141 @@ def read_graphs(directory, num_graphs):
     '''
     graphs = []
 
-    for i in xrange(num_graphs):
-        graphs.append(nx.read_graphml(directory + "/graph" + str(i) + ".graphml", node_type=int))
+    for i in range(num_graphs):
+        graph_to_add = nx.read_graphml(directory + "/graph" + str(i) + ".graphml")
+        graphs.append(graph_to_add)
 
     return graphs
 
+def save_images(directory, n):
+    '''
+    Reads n graphs from given directory and saves images as PNG format
+    '''
+    for i in range(n):
+        g = nx.read_graphml(directory + "/graph" + str(i) + ".graphml", node_type=int)
+        nx.draw_networkx(g)
+        plt.savefig(directory + "/graph" + str(i) + ".png", format="PNG")
+        plt.gcf().clear()
+
+def generate_complete_network(directory, num_nodes, num_time_steps):
+    '''
+    Generates a semi-compliete network with given number of nodes and time steps and
+    saves to PNG format
+    '''
+    for i in xrange(num_time_steps):
+        graph_to_add = nx.complete_graph(num_nodes)
+        remove_edges(graph_to_add)
+        nx.write_graphml(graph_to_add, directory + "/graph" + str(i) + ".graphml")
+        nx.draw_networkx(graph_to_add)
+        plt.savefig(directory + "/graph" + str(i) + ".png", format="PNG")
+        plt.gcf().clear()
+
+def generate_small_network():
+    '''
+    Generates a network of five individuals over the course of the week. On weekdays, graph
+    is sparse and disconnected, while on weekends, graph is almost complete.
+
+    @return A list of NetworkX graphs
+    '''
+    weekday_graph = nx.Graph()
+    weekday_graph.add_edges_from([(1,2), (2,3), (3,4), (4,5), (5,3)])
+    weekend_graph = nx.Graph()
+    weekend_graph.add_edges_from([(1,2), (2,3), (3,4), (4,5), (5,3), (1,3), (1,4), (2,3), (2,4)])
+    return [weekday_graph]*5 + [weekend_graph]*2
+
+
+########################
+### Analysis Methods ###
+########################
+
+def laplacian_matrix(graph):
+    '''
+    @return A scipy sparse matrix representing the Laplacian of the input graph
+    '''
+    return nx.laplacian_matrix(graph)
+
+def laplacian_dense(graph):
+    '''
+    @return A dense scipy matrix representing the Laplacian of the input graph
+    '''
+    return laplacian_matrix(graph).todense()
+
+def expected_degree_matrix(L):
+    '''
+    @return A diagonal matrix with entries being the expected degree of each node
+    '''
+    degree_vectors = [np.diagonal(laplacian_dense(g)) for g in L]
+    avg_degree = np.mean(degree_vectors, axis=0)
+    return np.diag(avg_degree)
+
+def expected_rotation(L):
+    '''
+    @return The expected rotation matrix using logarithmic mean
+    '''
+    matrix_list = [eigvech(laplacian_matrix(g)) for g in L]
+    return log_matrix_average(matrix_list)
+
+def expected_rotation_polar(L):
+    '''
+    Given a list of graphs, calculates the spectral decomposition of each Laplacian. For
+    each matrix M of eigenvectors, polar decompose into unitary matrix U and Hermitian
+    matrix P. 
+
+    Sum the unitary matrices and polar decompose the sum. The unitary matrix from the
+    decomposition is the expected rotation.
+    '''
+    matrix_list = [eigvech(laplacian_matrix(g)) for g in L]
+    return polar_decomp_average(matrix_list)
+
+def expected_eigenvalues(L):
+    '''
+    @param L  List of graphs to analyze
+    @return A vector representing the expected Laplacian spectrum for the graphs
+    '''
+    eigen_list = [eigvalsh(laplacian_matrix(g)) for g in L]
+    return np.mean(eigen_list, axis=0)
+
+def expected_laplacian(L):
+    '''
+    Calculate the expected Laplacian of a time-varying network using
+
+    L_e = P_e * G_e * (P_e)^T
+
+    where P_e is the expected rotation matrix and G_e is a diagonal matrix
+    of eigenvalues.
+
+    @param L A list of NetworkX graphs
+    @return A numpy matrix representing the expected Laplcian of the network
+    '''
+    P = expected_rotation_polar(L)
+    D = np.diag(expected_eigenvalues(L))
+    return np.dot(np.dot(P, D), P.T)
+
 if __name__ == "__main__":
-    L = read_graphs("/home/andy/host/dataset/college-graphs", 1000)
+    # print("Reading data...")
+    L = read_graphs("C:/Users/andy9/Documents/Shared/dataset/eu-graphs", 100)
+    # print("Calculating...")
+    # laplacian = expected_laplacian(L)
+    # degree_matrix = expected_degree_matrix(L)
+    # # print(laplacian)
+    # np.savetxt("laplacian.csv", laplacian, delimiter=",")
+    # # print(degree_matrix)
+    # adjacency = degree_matrix - laplacian
+    # degree_matrix = None
+    # laplacian = None
+    # # print(adjacency)
+    # np.fill_diagonal(adjacency, 0)
+    # adjacency = np.round(adjacency)
+    # np.savetxt("adjacency_polar.csv", adjacency, delimiter=",")
+
+    # f = open( "C:/Users/andy9/Documents/Shared/dataset/stack-graphs/pos.p", "rb" )
+    # pos = pickle.load(f)
+    # g = nx.from_numpy_matrix(adjacency)
+    # nx.draw(g, pos=pos, with_labels=False, node_size=1)
+    # plt.savefig("adjacency_polar.png", format="PNG", dpi=1000)
+    # DELETE L = generate_small_network()
+    adjacency_list = [nx.adjacency_matrix(g).todense() for g in L]
+    vector_tuple = tuple([mat.flatten().T for mat in adjacency_list])
+    X = np.hstack(vector_tuple)
+    sigma = np.cov(X) # TODO: replace sigma_i,j = E[(X_i)(X_j)] - (mu_i)(mu_j)
+    # NOTE: for np vector, getting i element is vec[i][0,0]

@@ -140,3 +140,8 @@
 - Read and researched covariance matrices and probability theory
 - Created covariance matrix for small network example
 - Cleaned up code and documentation
+
+## July 29
+- Investigate large covariance matrices
+- Conclusion: need to be smart about memory management
+- Upload updated code to GitHub (haven't done that in a while)
