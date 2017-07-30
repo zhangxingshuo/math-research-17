@@ -150,3 +150,4 @@
 - Research previous work on graphs and covariance matrices
 - A lot of work in the other direction, i.e. generating a graph from covariance matrix, but not so much in our direction
 - Need to work around large dataset and array sizes
+- Using brute force calculation, can generate .csv files representing large covariance matrices for big datasets
