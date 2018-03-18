@@ -4,6 +4,8 @@ import numpy as np
 import random
 import math
 import pickle
+import scipy.stats
+import csv
 
 from matrix import *
 
@@ -129,8 +131,11 @@ def read_graphs(directory, num_graphs):
     graphs = []
 
     for i in range(num_graphs):
-        graph_to_add = nx.read_graphml(directory + "/graph" + str(i) + ".graphml")
-        graphs.append(graph_to_add)
+        try:
+            graph_to_add = nx.read_graphml(directory + "/graph" + str(i) + ".graphml")
+            graphs.append(graph_to_add)
+        except:
+            print("Error at index: " + str(i))
 
     return graphs
 
@@ -138,11 +143,16 @@ def save_images(directory, n):
     '''
     Reads n graphs from given directory and saves images as PNG format
     '''
+    pos = None
     for i in range(n):
         g = nx.read_graphml(directory + "/graph" + str(i) + ".graphml", node_type=int)
-        nx.draw_networkx(g)
+        if i == 0:
+            pos = nx.spring_layout(g)
+        nx.draw(g, pos=pos, with_labels=False, node_size=1)
         plt.savefig(directory + "/graph" + str(i) + ".png", format="PNG")
         plt.gcf().clear()
+        print(i)
+    return pos
 
 def generate_complete_network(directory, num_nodes, num_time_steps):
     '''
@@ -238,31 +248,94 @@ def expected_laplacian(L):
     D = np.diag(expected_eigenvalues(L))
     return np.dot(np.dot(P, D), P.T)
 
-if __name__ == "__main__":
-    # print("Reading data...")
-    L = read_graphs("C:/Users/andy9/Documents/Shared/dataset/eu-graphs", 100)
-    # print("Calculating...")
-    # laplacian = expected_laplacian(L)
-    # degree_matrix = expected_degree_matrix(L)
-    # # print(laplacian)
-    # np.savetxt("laplacian.csv", laplacian, delimiter=",")
-    # # print(degree_matrix)
-    # adjacency = degree_matrix - laplacian
-    # degree_matrix = None
-    # laplacian = None
-    # # print(adjacency)
-    # np.fill_diagonal(adjacency, 0)
-    # adjacency = np.round(adjacency)
-    # np.savetxt("adjacency_polar.csv", adjacency, delimiter=",")
+def covariance(i, j, samples, mean):
+    '''
+    Calculates single covariance between ith and jth elements in
+    sample vectors, given a mean vector
+    '''
+    # calculate expected value X_i*X_j
+    total = 0
+    for sample in samples:
+        total += sample[i][0,0]*sample[j][0,0]
+    total /= len(samples)
 
-    # f = open( "C:/Users/andy9/Documents/Shared/dataset/stack-graphs/pos.p", "rb" )
-    # pos = pickle.load(f)
-    # g = nx.from_numpy_matrix(adjacency)
-    # nx.draw(g, pos=pos, with_labels=False, node_size=1)
-    # plt.savefig("adjacency_polar.png", format="PNG", dpi=1000)
-    # DELETE L = generate_small_network()
-    adjacency_list = [nx.adjacency_matrix(g).todense() for g in L]
-    vector_tuple = tuple([mat.flatten().T for mat in adjacency_list])
-    X = np.hstack(vector_tuple)
-    sigma = np.cov(X) # TODO: replace sigma_i,j = E[(X_i)(X_j)] - (mu_i)(mu_j)
-    # NOTE: for np vector, getting i element is vec[i][0,0]
+    return total - mean[i][0,0]*mean[j][0,0]
+
+def normal_divergence(G):
+    degree_count = nx.degree(G).values()
+    num_nodes = len(degree_count)
+    max_degree = max(degree_count)
+
+    mean = sum(degree_count) / num_nodes
+    variance = np.var(degree_count)
+    normal = scipy.stats.norm(mean, math.sqrt(variance))
+    
+    degree_dist = [1.0 * degree_count.count(i) / num_nodes for i in range(max_degree + 1)]
+
+    cutoff = int(round(mean + 8 * math.sqrt(variance)))
+    degree_dist = degree_dist[:cutoff]
+
+    for i in range(len(degree_dist)):
+        if degree_dist[i] == 0:
+            degree_dist[i] += 0.01
+            degree_dist[np.argmax(degree_dist)] -= 0.01
+
+    mean = sum(degree_count) / num_nodes
+    variance = np.var(degree_count)
+    normal = scipy.stats.norm(mean, math.sqrt(variance))
+    
+    normal_dist = [normal.cdf(i + 1) - normal.cdf(i) for i in range(len(degree_dist))]
+    
+    div1 = scipy.stats.entropy(degree_dist, normal_dist)
+    div2 = scipy.stats.entropy(normal_dist, degree_dist)
+
+    return (div1 + div2) / 2
+
+def cluster(L, k, num_iter=300):
+    # L is list of graphs
+    # k is number of centroids
+
+    # Dictionary holding cluster labels and indices of graphs in cluster
+    clustering = {}
+
+    # Compute distance metric based on symmetric KL divergence
+    div_list = [normal_divergence(graph) for graph in L]
+    min_div = min(div_list)
+    max_div = max(div_list)
+
+    # Randomly choose k centroids for clustering
+    centroids = np.random.uniform(min_div, max_div, k)
+
+    # Repeat until convergence -- for now, just constant number of times
+    for i in range(num_iter):
+
+        # Reset clusters in new iteration
+        clustering = {}
+
+        # For each graph, assign to closest centroid
+        for i in range(len(div_list)):
+            current_div = div_list[i]
+            centroid_dists = [(current_div - centroid)**2 for centroid in centroids]
+            closest_centroid = np.argmin(centroid_dists)
+            if closest_centroid not in clustering:
+                clustering[closest_centroid] = [i]
+            else:
+                clustering[closest_centroid] += [i]
+
+        # Recompute centroids based on current clustering
+        for key, val in clustering.items():
+            new_centroid = sum([div_list[index] for index in val]) / len(val)
+            centroids[key] = new_centroid
+
+    return clustering, centroids
+    
+
+if __name__ == "__main__":
+    # Read data
+    print("Reading data...")
+    L = read_graphs("C:/Users/andy9/Documents/Shared/dataset/college-graphs", 100)
+
+    # k-means clustering
+    clustering, centroids = cluster(L, 6)
+    print centroids
+    print clustering
